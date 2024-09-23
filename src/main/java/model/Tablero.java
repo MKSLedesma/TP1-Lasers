@@ -1,4 +1,54 @@
 package model;
 
 public class Tablero {
+    private char[][] tablero;
+    private final int filas;
+    private final int columnas;
+
+    private final char VACIO = ' ';
+    private final char BLOQUE = 'B';
+    private final char LASER = 'L';
+    private final char OBJETIVO = 'O';
+
+    public Tablero(int filas, int columnas) {
+        this.filas = filas;
+        this.columnas = columnas;
+        this.tablero = new char[filas][columnas];
+        crearTablero();
+    }
+
+    public void crearTablero() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                tablero[i][j] = VACIO;
+            }
+        }
+    }
+
+    public void posicionarObjeto(int fila, int columna, char objeto) {
+        if (fila >= 0 && fila < filas && columna >= 0 && columna < columnas) {
+            tablero[fila][columna] = objeto;
+        }
+    }
+
+    public char obtenerValor(int fila, int columna) {
+        return tablero[fila][columna];
+    }
+
+    public void moverObjeto(int filaActual, int columnaActual, int nuevaFila, int nuevaColumna) {
+        if (nuevaFila >= 0 && nuevaFila < filas && nuevaColumna >= 0 && nuevaColumna < columnas) {
+            char objeto = tablero[filaActual][columnaActual];
+            tablero[filaActual][columnaActual] = VACIO;
+            tablero[nuevaFila][nuevaColumna] = objeto;
+        }
+    }
+
+    public void imprimirTablero() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                System.out.print(tablero[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 }
