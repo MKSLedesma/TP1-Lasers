@@ -1,7 +1,10 @@
 package model;
 
+import model.bloques.Bloque;
+import model.bloques.BloqueVacio;
+
 public class Tablero {
-    private char[][] tablero;
+    private Bloque[][] tablero;
     private final int filas;
     private final int columnas;
 
@@ -13,33 +16,33 @@ public class Tablero {
     public Tablero(int filas, int columnas) {
         this.filas = filas;
         this.columnas = columnas;
-        this.tablero = new char[filas][columnas];
+        this.tablero = new Bloque[filas][columnas];
         crearTablero();
     }
 
     public void crearTablero() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                tablero[i][j] = VACIO;
+                tablero[i][j] = new BloqueVacio(" ");
             }
         }
     }
 
-    public void posicionarObjeto(int fila, int columna, char objeto) {
+    public void posicionarObjeto(int fila, int columna, Bloque bloque) {
         if (fila >= 0 && fila < filas && columna >= 0 && columna < columnas) {
-            tablero[fila][columna] = objeto;
+            tablero[fila][columna] = bloque;
         }
     }
 
-    public char obtenerValor(int fila, int columna) {
+    public Bloque obtenerValor(int fila, int columna) {
         return tablero[fila][columna];
     }
 
     public void moverObjeto(int filaActual, int columnaActual, int nuevaFila, int nuevaColumna) {
         if (nuevaFila >= 0 && nuevaFila < filas && nuevaColumna >= 0 && nuevaColumna < columnas) {
-            char objeto = tablero[filaActual][columnaActual];
-            tablero[filaActual][columnaActual] = VACIO;
-            tablero[nuevaFila][nuevaColumna] = objeto;
+            Bloque bloque = tablero[filaActual][columnaActual];
+            tablero[filaActual][columnaActual] = new BloqueVacio(" ");
+            tablero[nuevaFila][nuevaColumna] = bloque;
         }
     }
 
