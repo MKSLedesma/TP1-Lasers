@@ -1,7 +1,5 @@
 package model;
 
-import model.bloques.*;
-
 public class Laser {
     private int x;
     private int y;
@@ -17,56 +15,47 @@ public class Laser {
         estaActivo = true;
     }
 
-    public void emitir(){
-        while(estaActivo){
+    public void emitir() {
+        while (estaActivo) {
             mover();
             comprobarInteraccion();
         }
     }
 
     private void comprobarInteraccion() {
-        Bloque bloque = tablero.obtenerValor(x, y);
-        if (bloque != null) {
-            if (bloque instanceof BloqueCristal){
-                reflejar();
-            }
-            else if (bloque instanceof BloqueOpacoFijo || bloque instanceof BloqueOpacoMovil){
-                detener();
-            }
-            else if (bloque instanceof BloqueVidrio){
-                dividir();
-            }
-            else if (bloque instanceof BloqueEspejo){
-                reflejar();
-            }
+        Interfaz elemento = tablero.obtenerValor(x, y);
+        if (elemento != null) {
+            elemento.interactuarLaser(this);
         }
 
-        /* IMPLEMENTAR METODO
-        if (tablero.alcanzoObjetivo(x,y)){
-            System.out.println("Llegaste al objetivo");
+        if (tablero.alcanzoObjetivo(x, y)) {
+            System.out.println("¡Llegaste al objetivo!");
             estaActivo = false;
         }
-        */
     }
 
     private void mover() {
         switch (direccion) {
-            case SE -> {x += 1;y += 1;}
-            case SW -> {x -= 1;y += 1;}
-            case NE -> {x += 1;y -= 1;}
-            case NW -> {x -= 1;y -= 1;}
+            case SE -> { x += 1; y += 1; }
+            case SW -> { x -= 1; y += 1; }
+            case NE -> { x += 1; y -= 1; }
+            case NW -> { x -= 1; y -= 1; }
         }
     }
 
-    public void detener(){
+    public void detener() {
         estaActivo = false;
     }
 
-    public void reflejar(){
-
+    public void reflejar() {
+        // Implementar lógica
     }
 
-    public void dividir(){
-
+    public void dividir() {
+        // Implementar lógica
     }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public boolean EstaActivo() { return estaActivo; }
 }

@@ -9,7 +9,6 @@ public class Nivel {
 
     public Nivel(int filas, int columnas) {
         this.juegoTerminado = false;
-        this.objetivoAlcanzado = false;
         this.tablero = new Tablero(filas, columnas);
         this.posicionLaser = new int[2];
         this.posicionObjetivo = new int[2];
@@ -23,38 +22,25 @@ public class Nivel {
     public void posicionarObjetos() {
         posicionLaser[0] = 0;
         posicionLaser[1] = 0;
-        tablero.posicionarObjeto(posicionLaser[0], posicionLaser[1], 'L');
+        tablero.posicionarObjeto(posicionLaser[0], posicionLaser[1], new Emisor());
 
         posicionObjetivo[0] = 1;
         posicionObjetivo[1] = 1;
-        tablero.posicionarObjeto(posicionObjetivo[0], posicionObjetivo[1], 'O');
-
-        tablero.posicionarObjeto(0, 1, 'B');
+        tablero.posicionarObjeto(posicionObjetivo[0], posicionObjetivo[1], new Objetivo());
     }
 
     public void moverLaser() {
-
-        int nuevaFila = posicionLaser[0] + 1;
-        int nuevaColumna = posicionLaser[1];
-
-        if (nuevaFila == posicionObjetivo[0] && nuevaColumna == posicionObjetivo[1]) {
-            objetivoAlcanzado = true;
-            setJuegoTerminado(true);
-        }
-
-        tablero.moverObjeto(posicionLaser[0], posicionLaser[1], nuevaFila, nuevaColumna);
-        posicionLaser[0] = nuevaFila;
-        posicionLaser[1] = nuevaColumna;
+        tablero.moverObjeto(posicionLaser[0], posicionLaser[1], posicionLaser[0] + 1, posicionLaser[1]);
     }
 
     public void actualizarEstado() {
-
-        moverLaser();
-        tablero.imprimirTablero();
+        Laser laser = new Laser(posicionLaser[0], posicionLaser[1], Direccion.SE, tablero);
+        laser.emitir();
+        objetivoAlcanzado = tablero.alcanzoObjetivo(posicionLaser[0], posicionLaser[1]);
     }
 
     public boolean objetivoAlcanzado() {
-        return objetivoAlcanzado;
+        return tablero.alcanzoObjetivo(posicionLaser[0], posicionLaser[1]);
     }
 
     public boolean juegoTerminado() {
@@ -65,4 +51,3 @@ public class Nivel {
         this.juegoTerminado = terminado;
     }
 }
-
