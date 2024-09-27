@@ -4,7 +4,7 @@ import model.Laser;
 
 public class BloqueVacio extends Bloque {
     public BloqueVacio(String tipo) {
-        super(tipo);
+        super("", false);
     }
 
     @Override

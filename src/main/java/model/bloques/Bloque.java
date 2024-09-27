@@ -4,11 +4,12 @@ import model.Laser;
 import model.Interfaz;
 
 public abstract class Bloque implements Interfaz {
-    private String tipo;
-    private boolean esMovible;
+    private final String tipo;
+    private final boolean esMovible;
 
-    public Bloque(String tipo) {
+    public Bloque(String tipo, boolean esMovible) {
         this.tipo = tipo;
+        this.esMovible = esMovible;
     }
 
     @Override
@@ -18,3 +19,4 @@ public abstract class Bloque implements Interfaz {
 
     public abstract void interactuarLaser(Laser laser);
 }
+

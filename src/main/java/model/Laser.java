@@ -47,12 +47,23 @@ public class Laser {
         estaActivo = false;
     }
 
-    public void reflejar() {
-        // Implementar lógica
+    public void reflejar() { // Para implementar el reflejo del laser (Si apunta a SE, va hacia NW, etc...)
+        switch (direccion) {
+            case SE -> direccion = Direccion.NW;
+            case SW -> direccion = Direccion.NE;
+            case NE -> direccion = Direccion.SW;
+            case NW -> direccion = Direccion.SE;
+        }
     }
 
     public void dividir() {
-        // Implementar lógica
+        Laser laserDividido1 = new Laser(x, y, Direccion.NE, tablero);
+        Laser laserDividido2 = new Laser(x, y, Direccion.NW, tablero);
+
+        laserDividido1.emitir();
+        laserDividido2.emitir();
+
+        detener();
     }
 
     public int getX() { return x; }
