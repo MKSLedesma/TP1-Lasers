@@ -7,12 +7,19 @@ public class Laser {
     private Tablero tablero;
     private boolean estaActivo;
 
-    public Laser(int x, int y, Direccion direccionInicial, Tablero tableroInicial) {
-        this.direccion = direccionInicial;
+    public Laser(int x, int y, Direccion direccion, Tablero tablero) {
         this.x = x;
         this.y = y;
-        this.tablero = tableroInicial;
+        this.direccion = direccion;
+        this.tablero = tablero;
+        this.estaActivo = true;
+    }
+
+    public void emitirDesde(int xInicial, int yInicial) {
+        this.x = xInicial;
+        this.y = yInicial;
         estaActivo = true;
+        emitir();
     }
 
     public void emitir() {
@@ -60,8 +67,8 @@ public class Laser {
         Laser laserDividido1 = new Laser(x, y, Direccion.NE, tablero);
         Laser laserDividido2 = new Laser(x, y, Direccion.NW, tablero);
 
-        laserDividido1.emitir();
-        laserDividido2.emitir();
+        laserDividido1.emitirDesde(x, y);
+        laserDividido2.emitirDesde(x, y);
 
         detener();
     }
