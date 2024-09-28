@@ -1,6 +1,13 @@
 package model;
 
 public class Objetivo implements Interfaz {
+    private int x;
+    private int y;
+
+    public Objetivo(int x, int y) {
+    this.x = x;
+    this.y = y;
+    }
 
     @Override
     public void interactuarLaser(Laser laser) {

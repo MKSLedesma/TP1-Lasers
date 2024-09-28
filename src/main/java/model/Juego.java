@@ -1,43 +1,20 @@
 package model;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Juego {
-    private Nivel nivelIniciado;
-    private final int filas = 2;
-    private final int columnas = 2;
+    private ArrayList<Nivel> niveles;
 
-    public Juego() {
-        this.nivelIniciado = new Nivel(filas, columnas);
-    }
-
-    public void iniciarJuego() {
-        inicializarNivel();
-
-        while (!nivelIniciado.juegoTerminado()) {
-            actualizarJuego();
-        }
-
-        mostrarResultadoFinal();
-    }
-
-    private void inicializarNivel() {
-        nivelIniciado.inicializar();
-        System.out.println("Nivel iniciado!");
-    }
-
-    private void actualizarJuego() {
-        nivelIniciado.actualizarEstado();
-        nivelIniciado.moverLaser();
-
-        if (nivelIniciado.objetivoAlcanzado()) {
-            nivelIniciado.setJuegoTerminado(true);
+    public Juego() throws IOException {
+        niveles = new ArrayList<>();
+        for(File nivel : new File("src//main//resources//levels").listFiles()){
+            niveles.add(LectorNivel.construirNivel(nivel));
         }
     }
 
-    private void mostrarResultadoFinal() {
-        if (nivelIniciado.objetivoAlcanzado()) {
-            System.out.println("Felicidades, ¡ganaste!");
-        } else {
-            System.out.println("Juego terminado. Intente de nuevo.");
-        }
+    public ArrayList<Nivel> getNiveles(){
+        return niveles;
     }
 }

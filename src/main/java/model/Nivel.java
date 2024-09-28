@@ -1,32 +1,22 @@
 package model;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Nivel {
     private boolean juegoTerminado;
     private boolean objetivoAlcanzado;
+    private ArrayList<Emisor> emisores;
+    private ArrayList<Objetivo> objetivos;
     private Tablero tablero;
     private int[] posicionLaser;
     private int[] posicionObjetivo;
 
-    public Nivel(int filas, int columnas) {
-        this.juegoTerminado = false;
-        this.tablero = new Tablero(filas, columnas);
-        this.posicionLaser = new int[2];
-        this.posicionObjetivo = new int[2];
-    }
-
-    public void inicializar() {
-        posicionarObjetos();
-        tablero.imprimirTablero();
-    }
-
-    public void posicionarObjetos() {
-        posicionLaser[0] = 0;
-        posicionLaser[1] = 0;
-        tablero.posicionarObjeto(posicionLaser[0], posicionLaser[1], new Emisor());
-
-        posicionObjetivo[0] = 1;
-        posicionObjetivo[1] = 1;
-        tablero.posicionarObjeto(posicionObjetivo[0], posicionObjetivo[1], new Objetivo());
+    public Nivel(ArrayList<Emisor> emisores, ArrayList<Objetivo> objetivos, Tablero tablero){
+        this.emisores = emisores;
+        this.objetivos = objetivos;
+        this.tablero = tablero;
     }
 
     public void moverLaser() {
