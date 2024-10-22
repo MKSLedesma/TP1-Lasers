@@ -19,7 +19,6 @@ public class Coordenada {
         return y;
     }
 
-    // Metodo para comparar coordenadas
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
