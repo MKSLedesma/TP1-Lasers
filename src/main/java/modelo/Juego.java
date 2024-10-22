@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Juego {
-    private List<Nivel> niveles;
+    private final List<Nivel> niveles;
     private final File dirNiveles;
 
     public Juego() {

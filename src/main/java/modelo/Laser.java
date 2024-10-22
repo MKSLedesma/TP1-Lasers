@@ -34,6 +34,11 @@ public class Laser {
         }
     }
 
+    public void atravesar(int x, int y){
+        this.x += x;
+        this.y += y;
+    }
+
 
     public void desactivar() {
         this.estaActivo = false;

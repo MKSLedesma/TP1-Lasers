@@ -1,31 +1,31 @@
 package modelo.bloques;
 
-import modelo.Direccion;
+import modelo.Lado;
 import modelo.Laser;
 import modelo.Tablero;
 
 public class BloqueCristal extends Bloque {
     public BloqueCristal(int centroX, int centroY) {
-        super(centroX, centroY, "R");
+        super(centroX, centroY, "C", true);
+    }
+
+    @Override
+    public BloqueCristal clonar(){
+        return new BloqueCristal(this.getCentroX(), this.getCentroY());
     }
 
     @Override
     public void interactuarLaser(Laser laser, Tablero tablero) {
-        laser.setDireccion(invertirDireccion(laser.getDireccion()));
+        atravesarCristal(laser, this.getLado());
         laser.mover();
     }
 
-    private Direccion invertirDireccion(Direccion dir) {
-        if (dir == Direccion.NE) {
-            return Direccion.NW;
-        } else if (dir == Direccion.NW) {
-            return Direccion.NE;
-        } else if (dir == Direccion.SE) {
-            return Direccion.SW;
-        } else if (dir == Direccion.SW) {
-            return Direccion.SE;
-        } else {
-            return dir;
+    private void atravesarCristal(Laser laser, Lado lado) {
+        switch (lado) {
+            case NORTE: laser.atravesar(0, 2); break;
+            case SUR: laser.atravesar(0, -2); break;
+            case ESTE: laser.atravesar(-2, 0); break;
+            case OESTE: laser.atravesar(2, 0); break;
         }
     }
 }

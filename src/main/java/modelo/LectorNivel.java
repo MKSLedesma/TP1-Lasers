@@ -10,14 +10,15 @@ public class LectorNivel {
     public static Nivel construirNivel(File dirNivel) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(dirNivel));
         String linea;
-        int coordenadaY = 0;
         ArrayList<ArrayList<Bloque>> arrayTablero = new ArrayList<>();
         List<Emisor> emisores = new ArrayList<>();
         List<Objetivo> objetivos = new ArrayList<>();
 
+        int coordenadaY = 1;
         while ((linea = br.readLine()) != null && !linea.isEmpty()) {
             ArrayList<Bloque> fila = new ArrayList<>();
-            int coordenadaX = 0;
+            int coordenadaX = 1;
+
             for (char c : linea.toCharArray()) {
                 switch (c) {
                     case ' ':
@@ -42,18 +43,23 @@ public class LectorNivel {
                         fila.add(new BloqueCristal(coordenadaX, coordenadaY));
                         break;
                 }
-                coordenadaX ++;
+                coordenadaX += 2;
             }
             arrayTablero.add(fila);
-            coordenadaY ++;
+            coordenadaY += 2;
         }
 
         // Crear el tablero
-        Tablero tablero = new Tablero(arrayTablero.size(), arrayTablero.get(0).size());
+        Tablero tablero = new Tablero(arrayTablero.size() * 2, arrayTablero.get(0).size() * 2);
         for (ArrayList<Bloque> fila : arrayTablero) {
             for (Bloque bloque : fila) {
-                if (bloque != null){
-                    tablero.addBloque(bloque);
+                if (bloque != null) {
+                    if (bloque instanceof BloqueVacio) {
+                        tablero.setBloqueEn(bloque.getCentroX(), bloque.getCentroY(), bloque);
+                    }
+                    else {
+                        tablero.addBloque(bloque);
+                    }
                 }
             }
         }

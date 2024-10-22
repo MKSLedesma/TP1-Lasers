@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import modelo.*;
 import modelo.bloques.Bloque;
 import modelo.bloques.BloqueVacio;
+import java.util.List;
 
 public class LasersVista extends Application {
     public static void main(String[] args) {
@@ -22,6 +23,7 @@ public class LasersVista extends Application {
     private Juego juego;
     private GridPane tableroPane;
     private Pane lasersPane;
+    private Pane elementosPane;
     private ComboBox<String> selectorNiveles;
     private Label estadoLabel;
     private Bloque bloqueSeleccionado = null;
@@ -58,8 +60,12 @@ public class LasersVista extends Application {
         lasersPane = new Pane();
         lasersPane.setPickOnBounds(false);
 
+        elementosPane = new Pane();
+        elementosPane.setPickOnBounds(false);
+
+
         StackPane centerPane = new StackPane();
-        centerPane.getChildren().addAll(tableroPane, lasersPane);
+        centerPane.getChildren().addAll(tableroPane, lasersPane, elementosPane);
         root.setCenter(centerPane);
 
         estadoLabel = new Label("Selecciona un nivel para jugar.");
@@ -83,7 +89,36 @@ public class LasersVista extends Application {
         Nivel nivelSeleccionado = juego.getNiveles().get(indice);
         nivelSeleccionado.emitirLasersIniciales();
         actualizarTablero(nivelSeleccionado);
+        actualizarLasers(nivelSeleccionado);
+        actualizarElementos(nivelSeleccionado);
         estadoLabel.setText("Nivel " + (indice + 1) + " cargado.");
+    }
+
+    private void actualizarElementos(Nivel nivel){
+        elementosPane.getChildren().clear();
+        List<Objetivo> objetivos = nivel.getObjetivos();
+        List<Emisor> emisores = nivel.getEmisores();
+
+        for (Objetivo objetivo : objetivos) {
+            Circle circle = new Circle(objetivo.getPosicion().getX() * TAMANIO_BLOQUE / 2,
+                    objetivo.getPosicion().getY() * TAMANIO_BLOQUE / 2, 5);
+            circle.setFill(Color.WHITE);
+            circle.setStroke(Color.RED);
+            elementosPane.getChildren().add(circle);
+
+            for(Laser laser : nivel.getLasers()){
+                if(objetivo.getPosicion() == laser.getCoordenada()){
+                    objetivo.setActivo(true);
+                }
+            }
+        }
+
+        for (Emisor emisor : emisores) {
+            Circle circle = new Circle(emisor.getCoordenada().getX() * TAMANIO_BLOQUE / 2
+                    , emisor.getCoordenada().getY() * TAMANIO_BLOQUE / 2, 5);
+            circle.setFill(Color.RED);
+            elementosPane.getChildren().add(circle);
+        }
     }
 
     private void actualizarTablero(Nivel nivel){
@@ -92,8 +127,8 @@ public class LasersVista extends Application {
         int filas = tablero.getFilas();
         int columnas = tablero.getColumnas();
 
-        for (int y = 0; y < filas; y++){
-            for (int x = 0; x < columnas; x++){
+        for (int y = 1; y < filas; y += 2){
+            for (int x = 1; x < columnas; x += 2){
                 Bloque bloque = tablero.getBloqueEn(x, y);
                 StackPane celda = new StackPane();
                 celda.setPrefSize(TAMANIO_BLOQUE, TAMANIO_BLOQUE);
@@ -102,25 +137,20 @@ public class LasersVista extends Application {
                 if (bloque != null){
                     Color color = obtenerColorParaBloque(bloque);
                     celda.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+
+                    if (bloque.getTipo().equals("F")) {
+                        Line linea1 = new Line(0, 0, TAMANIO_BLOQUE - 5, TAMANIO_BLOQUE - 5);
+                        Line linea2 = new Line(0, TAMANIO_BLOQUE - 5, TAMANIO_BLOQUE - 5, 0);
+                        linea1.setStroke(Color.BLACK);
+                        linea2.setStroke(Color.BLACK);
+                        linea1.setStrokeWidth(2);
+                        linea2.setStrokeWidth(2);
+
+                        celda.getChildren().addAll(linea1, linea2);
+                    }
+
                 } else {
                     celda.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-                }
-
-                for (Emisor emisor : nivel.getEmisores()) {
-                    if (emisor.getCoordenada().getX() == x && emisor.getCoordenada().getY() == y) {
-                        Circle emisorCirculo = new Circle((double) TAMANIO_BLOQUE / 5 - 5);
-                        emisorCirculo.setFill(Color.RED);
-                        celda.getChildren().add(emisorCirculo);
-                    }
-                }
-
-                for (Objetivo objetivo : nivel.getObjetivos()) {
-                    if (objetivo.getPosicion().getX() == x && objetivo.getPosicion().getY() == y) {
-                        Circle objetivoCirculo = new Circle((double) TAMANIO_BLOQUE / 5 - 5);
-                        objetivoCirculo.setFill(Color.WHITE);
-                        objetivoCirculo.setStroke(Color.BLACK);
-                        celda.getChildren().add(objetivoCirculo);
-                    }
                 }
 
                 int finalX = x;
@@ -134,29 +164,44 @@ public class LasersVista extends Application {
 
     private void actualizarLasers(Nivel nivel){
         lasersPane.getChildren().clear();
-        for(Laser laser : nivel.getLasers()) {
-            Coordenada coor = laser.getCoordenada();
+
+        for (Laser laser : nivel.getLasers()) {
             Coordenada coorEmisor = laser.getEmisor().getCoordenada();
+            int inicioX = coorEmisor.getX() * TAMANIO_BLOQUE / 2;
+            int inicioY = coorEmisor.getY() * TAMANIO_BLOQUE / 2;
 
-            if (nivel.getTablero().estaDentroTablero(coor.getX(), coor.getY())){
-                Bloque bloque = nivel.getTablero().getBloqueEn(coor.getY(), coor.getX());
 
-                if (bloque != null) {
+            while(nivel.getTablero().getFilas() > laser.getCoordenada().getY() &&
+                    nivel.getTablero().getColumnas() > laser.getCoordenada().getX() &&
+                    0 <= laser.getCoordenada().getX() && 0 <= laser.getCoordenada().getY() &&
+                    laser.estaActivo()){
+                Coordenada coor = laser.getCoordenada();
+
+                for (Objetivo objetivo : nivel.getObjetivos()) {
+                    if (objetivo.getPosicion().equals(coor)) {
+                        objetivo.setActivo(true);
+                        break;
+                    }
+                }
+
+                Bloque bloque = nivel.getTablero().getBloqueEn(coor.getX(), coor.getY());
+
+                if (bloque != null && !(bloque instanceof BloqueVacio)) {
                     bloque.interactuarLaser(laser, nivel.getTablero());
                 }
+                else {laser.mover();}
+
+                int finX = inicioX + laser.getDireccion().getDeltaX() * TAMANIO_BLOQUE / 2;
+                int finY = inicioY + laser.getDireccion().getDeltaY() * TAMANIO_BLOQUE / 2;
+
+                Line lineaLaser = new Line(inicioX, inicioY, finX, finY);
+                lineaLaser.setStroke(Color.RED);
+                lineaLaser.setStrokeWidth(3);
+                lasersPane.getChildren().add(lineaLaser);
+
+                inicioX = finX;
+                inicioY = finY;
             }
-
-            double inicioX = coorEmisor.getX() * TAMANIO_BLOQUE;
-            double inicioY = coorEmisor.getY() * TAMANIO_BLOQUE + (double) TAMANIO_BLOQUE / 2;
-
-            double finX = inicioX + laser.getDireccion().getDeltaX() * TAMANIO_BLOQUE;
-            double finY = inicioY + laser.getDireccion().getDeltaY() * TAMANIO_BLOQUE;
-
-            Line lineaLaser = new Line(inicioX, inicioY, finX, finY);
-            lineaLaser.setStroke(Color.RED);
-            lineaLaser.setStrokeWidth(3);
-
-            lasersPane.getChildren().add(lineaLaser);
         }
     }
 
@@ -177,7 +222,7 @@ public class LasersVista extends Application {
         Bloque bloqueClickeado = nivel.getTablero().getBloqueEn(x, y);
 
         if (bloqueSeleccionado == null){
-            if (bloqueClickeado != null){
+            if (bloqueClickeado != null && bloqueClickeado.esMovible()){
                 bloqueSeleccionado = bloqueClickeado;
             }
         }
@@ -208,16 +253,18 @@ public class LasersVista extends Application {
     }
 
     private void moverBloque(Bloque bloque, int x, int y, Nivel nivel){
+        nivel.limpiarLasers();
+        nivel.emitirLasersIniciales();
         for (Coordenada coor : bloque.getCoordenadasOcupadas()){
-            nivel.getTablero().setBloqueEn(coor.getY() , coor.getX(), new BloqueVacio(x, y));
+            if (esValido(coor.getX(), coor.getY(), nivel)) {
+                nivel.getTablero().setBloqueEn(coor.getX(), coor.getY(), new BloqueVacio(x, y));
+            }
         }
 
         bloque.setCentroX(x);
         bloque.setCentroY(y);
 
-        for(Coordenada coor : bloque.getCoordenadasOcupadas()){
-            nivel.getTablero().setBloqueEn(coor.getY(), coor.getX(), bloque);
-        }
+        nivel.getTablero().addBloque(bloque);
 
         actualizarJuego();
     }
@@ -228,10 +275,12 @@ public class LasersVista extends Application {
 
         actualizarTablero(nivelActual);
         actualizarLasers(nivelActual);
+        actualizarElementos(nivelActual);
 
         if (nivelActual.todosObjetivosAlcanzados()) {
             estadoLabel.setText("¡Todos los objetivos han sido alcanzados! ¡Has ganado!");
         }
+
 
         nivelActual.actualizar();
     }
