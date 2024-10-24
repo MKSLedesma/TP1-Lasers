@@ -1,6 +1,8 @@
 package modelo;
 
 import modelo.bloques.Bloque;
+import modelo.bloques.BloqueVacio;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,6 @@ public class Nivel {
 
     public void actualizar() {
         for (Laser laser : lasers) {
-            laser.mover();
             Coordenada coorActual = laser.getCoordenada();
 
             if (!tablero.estaDentroTablero(coorActual.getX(), coorActual.getY())) {
@@ -65,6 +66,23 @@ public class Nivel {
             }
         }
         return true;
+    }
+
+    public void moverBloque(Bloque bloque, int x, int y){
+        limpiarLasers();
+        emitirLasersIniciales();
+        for (Coordenada coor : bloque.getCoordenadasOcupadas()){
+            if (tablero.estaDentroTablero(coor.getX(), coor.getY())){
+                tablero.setBloqueEn(coor.getX(), coor.getY(), new BloqueVacio(x, y));
+            }
+        }
+
+        bloque.setCentroX(x);
+        bloque.setCentroY(y);
+
+        tablero.addBloque(bloque);
+
+        actualizar();
     }
 
     public List<Laser> getLasers(){return lasers;}
