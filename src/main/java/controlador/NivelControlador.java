@@ -3,6 +3,7 @@ package controlador;
 import javafx.scene.control.Label;
 import modelo.Juego;
 import modelo.Nivel;
+import modelo.Objetivo;
 import modelo.bloques.Bloque;
 import modelo.bloques.BloqueVacio;
 import vista.ElementosVista;
@@ -69,7 +70,10 @@ public class NivelControlador {
 
     private void moverBloque(Bloque bloque, int x, int y, Nivel nivel) {
         nivel.moverBloque(bloque, x, y);
-        actualizarJuego(nivel);  // Llamar a actualizarJuego después de mover el bloque
+        for(Objetivo objetivo : nivel.getObjetivos()){
+            objetivo.setActivo(false);
+        }
+        actualizarJuego(nivel);
     }
 
     private void actualizarJuego(Nivel nivel) {
@@ -79,6 +83,7 @@ public class NivelControlador {
         elementosVista.actualizarElementos(nivel);
 
         if (nivel.todosObjetivosAlcanzados()) {
+            tableroVista.pintarTableroVerde();
             System.out.println("¡Todos los objetivos han sido alcanzados! ¡Has ganado!");
         }
     }

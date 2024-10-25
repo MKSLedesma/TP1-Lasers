@@ -27,13 +27,19 @@ public class ElementosVista {
         for (Objetivo objetivo : nivel.getObjetivos()) {
             Circle circulo = new Circle((double) (objetivo.getPosicion().getX() * TAMANIO_BLOQUE) / 2,
                     (double) (objetivo.getPosicion().getY() * TAMANIO_BLOQUE) / 2, 5);
-            circulo.setFill(Color.WHITE);
+            if (objetivo.estaActivo()) {
+                circulo.setFill(Color.RED);  // Color rojo si está activo
+            } else {
+                circulo.setFill(Color.WHITE);  // Color blanco si no está activo
+            }
+
             circulo.setStroke(Color.RED);
             elementosPane.getChildren().add(circulo);
 
             for (Laser laser : nivel.getLasers()) {
                 if (objetivo.getPosicion().equals(laser.getCoordenada())) {
                     objetivo.setActivo(true);
+                    circulo.setFill(Color.RED);
                 }
             }
         }

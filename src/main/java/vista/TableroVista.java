@@ -41,6 +41,20 @@ public class TableroVista {
         }
     }
 
+    public void pintarTableroVerde() {
+        for (int i = 0; i < tableroPane.getChildren().size(); i++) {
+            StackPane celda = (StackPane) tableroPane.getChildren().get(i);
+
+            if ("vacio".equals(celda.getUserData())) {
+                celda.setStyle(
+                        "-fx-background-color: #90EE90;" +  // Verde claro
+                                "-fx-border-color: black;" +        // Bordes negros para cada celda
+                                "-fx-border-width: 1;"              // Ancho de borde
+                );
+            }
+        }
+    }
+
     public GridPane getTableroPane(){
         return tableroPane;
     }

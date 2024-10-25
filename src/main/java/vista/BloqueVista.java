@@ -19,6 +19,9 @@ public class BloqueVista {
 
         if (bloque != null) {
             Color color = obtenerColorParaBloque(bloque);
+            if (Objects.equals(color, Color.rgb(211, 211, 211, 1))){
+                celda.setUserData("vacio");
+            }
             celda.setBackground(new Background(new BackgroundFill(color, null, null)));
 
             if (Objects.equals(bloque.getTipo(), "F")) {
@@ -29,6 +32,7 @@ public class BloqueVista {
                 celda.getChildren().addAll(linea1, linea2);
             }
         }
+        else {celda.setUserData("vacio");}
         return celda;
     }
 
