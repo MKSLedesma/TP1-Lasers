@@ -26,6 +26,8 @@ public class NivelControlador {
     }
 
     public void cargarNivel(int indice, Label estadoLabel) {
+        bloqueSeleccionado = null;
+
         if (indice < 0 || indice >= juego.getNiveles().size()) {
             estadoLabel.setText("Nivel seleccionado invalido.");
             return;
@@ -74,11 +76,13 @@ public class NivelControlador {
     }
 
     private void moverBloque(Bloque bloque, int x, int y, Nivel nivel) {
-        nivel.moverBloque(bloque, x, y);
-        for(Objetivo objetivo : nivel.getObjetivos()){
-            objetivo.setActivo(false);
+        if(!nivel.todosObjetivosAlcanzados()) {
+            nivel.moverBloque(bloque, x, y);
+            for (Objetivo objetivo : nivel.getObjetivos()) {
+                objetivo.setActivo(false);
+            }
+            actualizarJuego(nivel);
         }
-        actualizarJuego(nivel);
     }
 
     private void actualizarJuego(Nivel nivel) {
