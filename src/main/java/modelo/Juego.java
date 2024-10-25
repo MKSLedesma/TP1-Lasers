@@ -8,23 +8,36 @@ import java.util.Objects;
 
 public class Juego {
     private final List<Nivel> niveles;
-    private final File dirNiveles;
+    private final List<File> archivosNiveles;
 
     public Juego() {
         niveles = new ArrayList<>();
-        dirNiveles = new File("src//main//resources//levels");
+        archivosNiveles = List.of(Objects.requireNonNull((new File("src//main//resources//levels")).listFiles()));
     }
 
     public void cargarNiveles() {
-        for (File dirNivel : Objects.requireNonNull(dirNiveles.listFiles())) {
+        for (File dirNivel : archivosNiveles) {
             try {
                 niveles.add(LectorNivel.construirNivel(dirNivel));
             } catch (IOException e) {
                 System.out.println("Error al cargar el nivel: " + dirNivel.getName());
-                e.printStackTrace();
             }
         }
     }
 
+    public void recargarNivel(int indice) {
+        File archivoNivel = getArchivoNivel(indice);
+        try {
+            Nivel nivelRecargado = LectorNivel.construirNivel(archivoNivel);
+            getNiveles().set(indice, nivelRecargado);
+        } catch (IOException e) {
+            System.out.println("Error al recargar el nivel: " + e.getMessage());
+        }
+    }
+
     public List<Nivel> getNiveles(){return niveles;}
+
+    public File getArchivoNivel(int indice) {
+        return archivosNiveles.get(indice);
+    }
 }

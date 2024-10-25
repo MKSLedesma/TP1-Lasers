@@ -32,6 +32,11 @@ public class NivelControlador {
         }
 
         Nivel nivelSeleccionado = juego.getNiveles().get(indice);
+        if(nivelSeleccionado.todosObjetivosAlcanzados()) {
+            juego.recargarNivel(indice);
+            nivelSeleccionado = juego.getNiveles().get(indice);
+        }
+
         nivelSeleccionado.emitirLasersIniciales();
 
         tableroVista.actualizarTablero(nivelSeleccionado);
