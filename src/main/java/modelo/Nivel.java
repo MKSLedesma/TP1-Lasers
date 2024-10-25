@@ -33,6 +33,7 @@ public class Nivel {
     }
 
     public void actualizar() {
+        recolocarBloques();
         for (Laser laser : lasers) {
             Coordenada coorActual = laser.getCoordenada();
 
@@ -81,9 +82,20 @@ public class Nivel {
         bloque.setCentroY(y);
 
         tablero.addBloque(bloque);
-
         actualizar();
     }
+
+    public void recolocarBloques() {
+        for (int y = 1; y < tablero.getFilas(); y += 2) {
+            for (int x = 1; x < tablero.getColumnas(); x += 2) {
+                Bloque bloqueActual = tablero.getBloqueEn(x, y);
+                if (bloqueActual != null && !(bloqueActual instanceof BloqueVacio)) {
+                    tablero.addBloque(bloqueActual);
+                }
+            }
+        }
+    }
+
 
     public List<Laser> getLasers(){return lasers;}
 
