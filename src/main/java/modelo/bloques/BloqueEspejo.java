@@ -1,9 +1,6 @@
 package modelo.bloques;
 
-import modelo.Direccion;
-import modelo.Lado;
-import modelo.Laser;
-import modelo.Tablero;
+import modelo.*;
 
 public class BloqueEspejo extends Bloque {
     public BloqueEspejo(int centroX, int centroY) {
@@ -18,7 +15,6 @@ public class BloqueEspejo extends Bloque {
     @Override
     public void interactuarLaser(Laser laser, Tablero tablero) {
         laser.setDireccion(invertirDireccion(laser.getDireccion(), this.getLado()));
-        laser.mover();
     }
 
     private Direccion invertirDireccion(Direccion dir, Lado lado) {

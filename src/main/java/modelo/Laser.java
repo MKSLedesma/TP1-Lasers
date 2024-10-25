@@ -1,5 +1,8 @@
 package modelo;
 
+import modelo.bloques.Bloque;
+import modelo.bloques.BloqueVacio;
+
 public class Laser {
     private int x;
     private int y;
@@ -27,11 +30,32 @@ public class Laser {
         return estaActivo;
     }
 
-    public void mover() {
-        if(estaActivo) {
-            this.x += direccion.getDeltaX();
-            this.y += direccion.getDeltaY();
+    public void mover(Nivel nivel) {
+        if (nivel.getTablero().getFilas() > getCoordenada().getY() &&
+                nivel.getTablero().getColumnas() > getCoordenada().getX() &&
+                0 <= getCoordenada().getX() && 0 <= getCoordenada().getY() &&
+                estaActivo()) {
+
+            for (Objetivo objetivo : nivel.getObjetivos()){
+                if (getCoordenada().equals(objetivo.getPosicion())){
+                    objetivo.setActivo(true);
+                }
+            }
+
+            Coordenada coor = getCoordenada();
+
+            Bloque bloque = nivel.getTablero().getBloqueEn(coor.getX(), coor.getY());
+
+            if (bloque != null && !(bloque instanceof BloqueVacio)) {
+                bloque.interactuarLaser(this, nivel.getTablero());
+                if (!this.estaActivo()){ return;}
+            }
+            if (estaActivo) {
+                this.x += direccion.getDeltaX();
+                this.y += direccion.getDeltaY();
+            }
         }
+        else {desactivar();}
     }
 
     public void atravesar(int x, int y){

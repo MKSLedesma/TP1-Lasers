@@ -6,8 +6,6 @@ import javafx.scene.shape.Line;
 import modelo.Coordenada;
 import modelo.Laser;
 import modelo.Nivel;
-import modelo.bloques.Bloque;
-import modelo.bloques.BloqueVacio;
 
 public class LaserVista {
     private final Pane lasersPane;
@@ -30,30 +28,20 @@ public class LaserVista {
             int inicioX = coorEmisor.getX() * TAMANIO_BLOQUE / 2;
             int inicioY = coorEmisor.getY() * TAMANIO_BLOQUE / 2;
 
-            while (nivel.getTablero().getFilas() > laser.getCoordenada().getY() &&
-                    nivel.getTablero().getColumnas() > laser.getCoordenada().getX() &&
-                    0 <= laser.getCoordenada().getX() && 0 <= laser.getCoordenada().getY() &&
-                    laser.estaActivo()) {
-                Coordenada coor = laser.getCoordenada();
+            while (laser.estaActivo()) {
+                laser.mover(nivel);
+                if (laser.estaActivo()) {
+                    int finX = inicioX + laser.getDireccion().getDeltaX() * TAMANIO_BLOQUE / 2;
+                    int finY = inicioY + laser.getDireccion().getDeltaY() * TAMANIO_BLOQUE / 2;
 
-                Bloque bloque = nivel.getTablero().getBloqueEn(coor.getX(), coor.getY());
+                    Line lineaLaser = new Line(inicioX, inicioY, finX, finY);
+                    lineaLaser.setStroke(Color.RED);
+                    lineaLaser.setStrokeWidth(3);
+                    lasersPane.getChildren().add(lineaLaser);
 
-                if (bloque != null && !(bloque instanceof BloqueVacio)) {
-                    bloque.interactuarLaser(laser, nivel.getTablero());
-                    if (!laser.estaActivo()){ return;}
+                    inicioX = finX;
+                    inicioY = finY;
                 }
-                else {laser.mover();}
-
-                int finX = inicioX + laser.getDireccion().getDeltaX() * TAMANIO_BLOQUE / 2;
-                int finY = inicioY + laser.getDireccion().getDeltaY() * TAMANIO_BLOQUE / 2;
-
-                Line lineaLaser = new Line(inicioX, inicioY, finX, finY);
-                lineaLaser.setStroke(Color.RED);
-                lineaLaser.setStrokeWidth(3);
-                lasersPane.getChildren().add(lineaLaser);
-
-                inicioX = finX;
-                inicioY = finY;
             }
         }
     }

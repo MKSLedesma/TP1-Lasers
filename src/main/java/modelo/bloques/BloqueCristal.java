@@ -17,7 +17,6 @@ public class BloqueCristal extends Bloque {
     @Override
     public void interactuarLaser(Laser laser, Tablero tablero) {
         atravesarCristal(laser, this.getLado());
-        laser.mover();
     }
 
     private void atravesarCristal(Laser laser, Lado lado) {

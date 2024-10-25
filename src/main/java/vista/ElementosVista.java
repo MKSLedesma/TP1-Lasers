@@ -9,8 +9,7 @@ import modelo.Nivel;
 import modelo.Objetivo;
 
 public class ElementosVista {
-    private final int TAMANIO_BLOQUE = 50;
-    private Pane elementosPane;
+    private final Pane elementosPane;
 
     public ElementosVista() {
         elementosPane = new Pane();
@@ -24,9 +23,10 @@ public class ElementosVista {
     public void actualizarElementos(Nivel nivel){
         elementosPane.getChildren().clear();
 
+        int TAMANIO_BLOQUE = 50;
         for (Objetivo objetivo : nivel.getObjetivos()) {
-            Circle circulo = new Circle(objetivo.getPosicion().getX() * TAMANIO_BLOQUE / 2,
-                    objetivo.getPosicion().getY() * TAMANIO_BLOQUE / 2, 5);
+            Circle circulo = new Circle((double) (objetivo.getPosicion().getX() * TAMANIO_BLOQUE) / 2,
+                    (double) (objetivo.getPosicion().getY() * TAMANIO_BLOQUE) / 2, 5);
             circulo.setFill(Color.WHITE);
             circulo.setStroke(Color.RED);
             elementosPane.getChildren().add(circulo);
@@ -39,8 +39,8 @@ public class ElementosVista {
         }
 
         for (Emisor emisor : nivel.getEmisores()) {
-            Circle circulo = new Circle(emisor.getCoordenada().getX() * TAMANIO_BLOQUE / 2,
-                    emisor.getCoordenada().getY() * TAMANIO_BLOQUE / 2, 5);
+            Circle circulo = new Circle((double) (emisor.getCoordenada().getX() * TAMANIO_BLOQUE) / 2,
+                    (double) (emisor.getCoordenada().getY() * TAMANIO_BLOQUE) / 2, 5);
             circulo.setFill(Color.RED);
             elementosPane.getChildren().add(circulo);
         }

@@ -8,6 +8,5 @@ public class BloqueVidrio extends Bloque {
 
     @Override
     public void interactuarLaser(Laser laser, Tablero tablero) {
-        laser.mover();
     }
 }
