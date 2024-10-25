@@ -50,7 +50,7 @@ public class LectorNivel {
         }
 
         // Crear el tablero
-        Tablero tablero = new Tablero(arrayTablero.size() * 2, arrayTablero.get(0).size() * 2);
+        Tablero tablero = new Tablero(1 + arrayTablero.size() * 2, 1 + arrayTablero.get(0).size() * 2);
         for (ArrayList<Bloque> fila : arrayTablero) {
             for (Bloque bloque : fila) {
                 if (bloque != null) {

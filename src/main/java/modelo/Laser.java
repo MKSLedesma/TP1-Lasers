@@ -56,7 +56,7 @@ public class Laser {
             }
         }
         else {desactivar();}
-    }
+     }
 
     public void atravesar(int x, int y){
         this.x += x;
