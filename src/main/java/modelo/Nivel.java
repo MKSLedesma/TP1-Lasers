@@ -38,13 +38,11 @@ public class Nivel {
             Coordenada coorActual = laser.getCoordenada();
 
             if (!tablero.estaDentroTablero(coorActual.getX(), coorActual.getY())) {
-                System.out.println("Un láser salió del tablero sin colisionar.");
                 laser.desactivar();
                 continue;
             }
 
             if (tablero.estaOcupado(coorActual.getX(), coorActual.getY())) {
-                System.out.println("Un laser colisiono con un bloque en (" + coorActual.getX() + ", " + coorActual.getY() + ")");
                 Bloque bloque = tablero.getBloqueEn(coorActual.getX(), coorActual.getY());
                 bloque.interactuarLaser(laser, this);
                 continue;
@@ -52,7 +50,6 @@ public class Nivel {
 
             Objetivo objetivoAlcanzado = tablero.getObjetivoEn(coorActual.getX(), coorActual.getY());
             if (objetivoAlcanzado != null) {
-                System.out.println("Un laser ha alcanzado el objetivo en (" + coorActual.getX() + ", " + coorActual.getY() + ")");
                 tablero.marcarObjetivoComoActivo(objetivoAlcanzado);
                 laser.desactivar();
             }

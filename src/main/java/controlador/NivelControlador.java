@@ -93,7 +93,6 @@ public class NivelControlador {
 
         if (nivel.todosObjetivosAlcanzados()) {
             tableroVista.pintarTableroVerde();
-            System.out.println("¡Todos los objetivos han sido alcanzados! ¡Has ganado!");
         }
     }
 }

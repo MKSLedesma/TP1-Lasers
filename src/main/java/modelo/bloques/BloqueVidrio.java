@@ -34,8 +34,6 @@ public class BloqueVidrio extends Bloque {
         atravesarCristal(laserClonado, this.getLado());
 
         nivel.getLasers().add(laserClonado);
-
-        System.out.println("Nuevo láser clonado en posición: (" + laserClonado.getCoordenada().getX() + ", " + laserClonado.getCoordenada().getY() + ")");
     }
 
     private void atravesarCristal(Laser laser, Lado lado) {
