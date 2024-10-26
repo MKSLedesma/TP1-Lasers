@@ -3,7 +3,7 @@ package modelo.bloques;
 import modelo.Coordenada;
 import modelo.Lado;
 import modelo.Laser;
-import modelo.Tablero;
+import modelo.Nivel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class Bloque {
     public Bloque clonar() {
         return new Bloque(this.centroX, this.centroY, this.tipo, this.esMovible) {
             @Override
-            public void interactuarLaser(Laser laser, Tablero tablero) {
+            public void interactuarLaser(Laser laser, Nivel nivel) {
             }
         };
     }
@@ -74,5 +74,5 @@ public abstract class Bloque {
         return esMovible;
     }
 
-    public abstract void interactuarLaser(Laser laser, Tablero tablero);
+    public abstract void interactuarLaser(Laser laser, Nivel nivel);
 }

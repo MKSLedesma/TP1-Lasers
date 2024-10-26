@@ -31,38 +31,43 @@ public class Laser {
     }
 
     public void mover(Nivel nivel) {
-        if (nivel.getTablero().getFilas() > getCoordenada().getY() &&
-                nivel.getTablero().getColumnas() > getCoordenada().getX() &&
-                0 <= getCoordenada().getX() && 0 <= getCoordenada().getY() &&
-                estaActivo()) {
+        // Verificar si la posición está dentro de los límites del tablero a través del método de Nivel
+        if (nivel.estaDentroDeLimites(getCoordenada().getX(), getCoordenada().getY()) && estaActivo()) {
 
-            for (Objetivo objetivo : nivel.getObjetivos()){
-                if (getCoordenada().equals(objetivo.getPosicion())){
+            // Verificar si el láser ha alcanzado algún objetivo
+            for (Objetivo objetivo : nivel.getObjetivos()) {
+                if (getCoordenada().equals(objetivo.getPosicion())) {
                     objetivo.setActivo(true);
                 }
             }
 
             Coordenada coor = getCoordenada();
 
-            Bloque bloque = nivel.getTablero().getBloqueEn(coor.getX(), coor.getY());
+            // Obtener el bloque a través de un método de Nivel
+            Bloque bloque = nivel.obtenerBloqueEn(coor.getX(), coor.getY());
 
+            // Interactuar con el bloque si no es un BloqueVacio
             if (bloque != null && !(bloque instanceof BloqueVacio)) {
-                bloque.interactuarLaser(this, nivel.getTablero());
-                if (!this.estaActivo()){ return;}
+                bloque.interactuarLaser(this, nivel);
+                if (!this.estaActivo()) {
+                    return;
+                }
             }
+
+            // Mover el láser si todavía está activo
             if (estaActivo) {
                 this.x += direccion.getDeltaX();
                 this.y += direccion.getDeltaY();
             }
+        } else {
+            desactivar(); // Desactivar el láser si sale del tablero
         }
-        else {desactivar();}
-     }
+    }
 
-    public void atravesar(int x, int y){
+    public void atravesar(int x, int y) {
         this.x += x;
         this.y += y;
     }
-
 
     public void desactivar() {
         this.estaActivo = false;
@@ -72,6 +77,8 @@ public class Laser {
         this.direccion = nuevaDireccion;
     }
 
-    public Emisor getEmisor(){return emisor;}
-}
+    public Emisor getEmisor() {
+        return emisor;
+    }
 
+}

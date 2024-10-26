@@ -46,7 +46,7 @@ public class Nivel {
             if (tablero.estaOcupado(coorActual.getX(), coorActual.getY())) {
                 System.out.println("Un laser colisiono con un bloque en (" + coorActual.getX() + ", " + coorActual.getY() + ")");
                 Bloque bloque = tablero.getBloqueEn(coorActual.getX(), coorActual.getY());
-                bloque.interactuarLaser(laser, tablero);
+                bloque.interactuarLaser(laser, this);
                 continue;
             }
 
@@ -106,4 +106,9 @@ public class Nivel {
     public List<Emisor> getEmisores() { return emisores;}
 
     public List<Objetivo> getObjetivos() { return objetivos;}
+
+    public boolean estaDentroDeLimites(int x, int y) {return tablero.estaDentroTablero(x, y);}
+
+    public Bloque obtenerBloqueEn(int x, int y) {return tablero.getBloqueEn(x, y);}
+
 }

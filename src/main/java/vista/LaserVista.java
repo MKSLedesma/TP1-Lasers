@@ -6,6 +6,8 @@ import javafx.scene.shape.Line;
 import modelo.Coordenada;
 import modelo.Laser;
 import modelo.Nivel;
+import java.util.List;
+import java.util.ArrayList;
 
 public class LaserVista {
     private final Pane lasersPane;
@@ -22,7 +24,8 @@ public class LaserVista {
     public void actualizarLasers(Nivel nivel) {
         lasersPane.getChildren().clear();
 
-        for (Laser laser : nivel.getLasers()) {
+        List<Laser> lasersToUpdate = new ArrayList<>(nivel.getLasers());
+        for (Laser laser : lasersToUpdate) {
             Coordenada coorEmisor = laser.getEmisor().getCoordenada();
             int TAMANIO_BLOQUE = 50;
             int inicioX = coorEmisor.getX() * TAMANIO_BLOQUE / 2;

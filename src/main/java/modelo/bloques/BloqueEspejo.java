@@ -13,7 +13,7 @@ public class BloqueEspejo extends Bloque {
     }
 
     @Override
-    public void interactuarLaser(Laser laser, Tablero tablero) {
+    public void interactuarLaser(Laser laser, Nivel nivel) {
         laser.setDireccion(invertirDireccion(laser.getDireccion(), this.getLado()));
     }
 

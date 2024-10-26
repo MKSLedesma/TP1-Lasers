@@ -2,7 +2,7 @@ package modelo.bloques;
 
 import modelo.Lado;
 import modelo.Laser;
-import modelo.Tablero;
+import modelo.Nivel;
 
 public class BloqueCristal extends Bloque {
     public BloqueCristal(int centroX, int centroY) {
@@ -15,7 +15,7 @@ public class BloqueCristal extends Bloque {
     }
 
     @Override
-    public void interactuarLaser(Laser laser, Tablero tablero) {
+    public void interactuarLaser(Laser laser, Nivel nivel) {
         atravesarCristal(laser, this.getLado());
     }
 

@@ -1,7 +1,7 @@
 package modelo.bloques;
 
 import modelo.Laser;
-import modelo.Tablero;
+import modelo.Nivel;
 
 public class BloqueVacio extends Bloque {
     public BloqueVacio(int centroX, int centroY) {
@@ -9,6 +9,6 @@ public class BloqueVacio extends Bloque {
     }
 
     @Override
-    public void interactuarLaser(Laser laser, Tablero tablero) {
+    public void interactuarLaser(Laser laser, Nivel nivel) {
     }
 }

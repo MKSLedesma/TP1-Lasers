@@ -1,7 +1,7 @@
 package modelo.bloques;
 
 import modelo.Laser;
-import modelo.Tablero;
+import modelo.Nivel;
 
 public class BloqueOpacoFijo extends Bloque {
     public BloqueOpacoFijo(int centroX, int centroY) {
@@ -13,7 +13,7 @@ public class BloqueOpacoFijo extends Bloque {
         return new BloqueOpacoFijo(this.getCentroX(), this.getCentroY());
     }
     @Override
-    public void interactuarLaser(Laser laser, Tablero tablero) {
+    public void interactuarLaser(Laser laser, Nivel nivel) {
         laser.desactivar();
     }
 }
