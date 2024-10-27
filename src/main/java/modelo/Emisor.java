@@ -13,7 +13,6 @@ public class Emisor {
         return coordenada;
     }
 
-    // Emite un nuevo láser.
     public Laser emitirLaser() {
         return new Laser(coordenada.getX(), coordenada.getY(), direccion, this);
     }

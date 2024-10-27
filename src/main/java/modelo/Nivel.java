@@ -34,10 +34,12 @@ public class Nivel {
 
     public void actualizar() {
         recolocarBloques();
-        for (Laser laser : lasers) {
+        List<Laser> lasersAProcesar = new ArrayList<>(lasers);
+        for (Laser laser : lasersAProcesar) {
             Coordenada coorActual = laser.getCoordenada();
 
             if (!tablero.estaDentroTablero(coorActual.getX(), coorActual.getY())) {
+                System.out.println("Un láser salió del tablero sin colisionar.");
                 laser.desactivar();
                 continue;
             }
@@ -57,6 +59,7 @@ public class Nivel {
     }
 
 
+
     public boolean todosObjetivosAlcanzados() {
         for (Objetivo obj : objetivos) {
             if (!obj.estaActivo()) {
@@ -69,9 +72,12 @@ public class Nivel {
     public void moverBloque(Bloque bloque, int x, int y){
         limpiarLasers();
         emitirLasersIniciales();
+
+        int centroX = bloque.getCentroX();
+        int centroY = bloque.getCentroY();
         for (Coordenada coor : bloque.getCoordenadasOcupadas()){
             if (tablero.estaDentroTablero(coor.getX(), coor.getY())){
-                tablero.setBloqueEn(coor.getX(), coor.getY(), new BloqueVacio(x, y));
+                tablero.setBloqueEn(coor.getX(), coor.getY(), new BloqueVacio(centroX, centroY));
             }
         }
 
@@ -81,6 +87,7 @@ public class Nivel {
         tablero.addBloque(bloque);
         actualizar();
     }
+
 
     public void recolocarBloques() {
         for (int y = 1; y < tablero.getFilas(); y += 2) {
@@ -92,7 +99,6 @@ public class Nivel {
             }
         }
     }
-
 
     public List<Laser> getLasers(){return lasers;}
 

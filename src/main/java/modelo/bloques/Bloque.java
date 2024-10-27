@@ -59,7 +59,6 @@ public abstract class Bloque {
         return lado;
     }
 
-    // Devuelve una lista de posiciones que ocupa el bloque en el tablero.
     public List<Coordenada> getCoordenadasOcupadas() {
         List<Coordenada> posiciones = new ArrayList<>();
         posiciones.add(new Coordenada(centroX, centroY)); // Solo el centro

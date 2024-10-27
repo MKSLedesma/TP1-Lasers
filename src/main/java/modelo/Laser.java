@@ -9,6 +9,9 @@ public class Laser {
     private Direccion direccion;
     private boolean estaActivo;
     private final Emisor emisor;
+    private final int xInicial;
+    private final int yInicial;
+    private final Direccion direccionInicial;
 
     public Laser(int inicioX, int inicioY, Direccion direccion, Emisor emisor) {
         this.x = inicioX;
@@ -16,6 +19,9 @@ public class Laser {
         this.direccion = direccion;
         this.estaActivo = true;
         this.emisor = emisor;
+        this.xInicial = inicioX;
+        this.yInicial = inicioY;
+        this.direccionInicial = direccion;
     }
 
     public Coordenada getCoordenada() {
@@ -31,10 +37,8 @@ public class Laser {
     }
 
     public void mover(Nivel nivel) {
-        // Verificar si la posición está dentro de los límites del tablero a través del método de Nivel
         if (nivel.estaDentroDeLimites(getCoordenada().getX(), getCoordenada().getY()) && estaActivo()) {
 
-            // Verificar si el láser ha alcanzado algún objetivo
             for (Objetivo objetivo : nivel.getObjetivos()) {
                 if (getCoordenada().equals(objetivo.getPosicion())) {
                     objetivo.setActivo(true);
@@ -42,11 +46,8 @@ public class Laser {
             }
 
             Coordenada coor = getCoordenada();
-
-            // Obtener el bloque a través de un método de Nivel
             Bloque bloque = nivel.obtenerBloqueEn(coor.getX(), coor.getY());
 
-            // Interactuar con el bloque si no es un BloqueVacio
             if (bloque != null && !(bloque instanceof BloqueVacio)) {
                 bloque.interactuarLaser(this, nivel);
                 if (!this.estaActivo()) {
@@ -54,13 +55,12 @@ public class Laser {
                 }
             }
 
-            // Mover el láser si todavía está activo
             if (estaActivo) {
                 this.x += direccion.getDeltaX();
                 this.y += direccion.getDeltaY();
             }
         } else {
-            desactivar(); // Desactivar el láser si sale del tablero
+            desactivar();
         }
     }
 
@@ -81,4 +81,10 @@ public class Laser {
         return emisor;
     }
 
+    public void resetToInitialPosition() {
+        this.x = xInicial;
+        this.y = yInicial;
+        this.direccion = direccionInicial;
+        this.estaActivo = true;
+    }
 }

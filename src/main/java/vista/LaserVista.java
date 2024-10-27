@@ -6,6 +6,7 @@ import javafx.scene.shape.Line;
 import modelo.Coordenada;
 import modelo.Laser;
 import modelo.Nivel;
+import modelo.Emisor;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,27 +25,38 @@ public class LaserVista {
     public void actualizarLasers(Nivel nivel) {
         lasersPane.getChildren().clear();
 
+        for (Emisor emisor : nivel.getEmisores()) {
+            Laser laser = emisor.emitirLaser();
+            if (laser != null) {
+                dibujarLaser(laser, nivel);
+            }
+        }
+
         List<Laser> lasersToUpdate = new ArrayList<>(nivel.getLasers());
         for (Laser laser : lasersToUpdate) {
-            Coordenada coorEmisor = laser.getEmisor().getCoordenada();
-            int TAMANIO_BLOQUE = 50;
-            int inicioX = coorEmisor.getX() * TAMANIO_BLOQUE / 2;
-            int inicioY = coorEmisor.getY() * TAMANIO_BLOQUE / 2;
+            dibujarLaser(laser, nivel);
+        }
+    }
 
-            while (laser.estaActivo()) {
-                laser.mover(nivel);
-                if (laser.estaActivo()) {
-                    int finX = inicioX + laser.getDireccion().getDeltaX() * TAMANIO_BLOQUE / 2;
-                    int finY = inicioY + laser.getDireccion().getDeltaY() * TAMANIO_BLOQUE / 2;
+    private void dibujarLaser(Laser laser, Nivel nivel) {
+        Coordenada coorEmisor = laser.getEmisor().getCoordenada();
+        int TAMANIO_BLOQUE = 50;
+        int inicioX = laser.getCoordenada().getX() * TAMANIO_BLOQUE / 2;
+        int inicioY = laser.getCoordenada().getY() * TAMANIO_BLOQUE / 2;
 
-                    Line lineaLaser = new Line(inicioX, inicioY, finX, finY);
-                    lineaLaser.setStroke(Color.RED);
-                    lineaLaser.setStrokeWidth(3);
-                    lasersPane.getChildren().add(lineaLaser);
+        while (laser.estaActivo()) {
+            laser.mover(nivel);
+            if (laser.estaActivo()) {
+                int finX = inicioX + laser.getDireccion().getDeltaX() * TAMANIO_BLOQUE / 2;
+                int finY = inicioY + laser.getDireccion().getDeltaY() * TAMANIO_BLOQUE / 2;
 
-                    inicioX = finX;
-                    inicioY = finY;
-                }
+                Line lineaLaser = new Line(inicioX, inicioY, finX, finY);
+                lineaLaser.setStroke(Color.RED);
+                lineaLaser.setStrokeWidth(3);
+                lasersPane.getChildren().add(lineaLaser);
+
+                inicioX = finX;
+                inicioY = finY;
             }
         }
     }
