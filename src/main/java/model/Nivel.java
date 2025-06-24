@@ -1,12 +1,9 @@
 package model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Nivel {
     private boolean juegoTerminado;
-    private boolean objetivoAlcanzado;
     private ArrayList<Emisor> emisores;
     private ArrayList<Objetivo> objetivos;
     private Tablero tablero;

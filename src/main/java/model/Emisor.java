@@ -3,15 +3,19 @@ package model;
 import model.Laser;
 
 public class Emisor {
-    private int x;
-    private int y;
-    private Direccion direccion;
-    private int rango;
+    private final Posicion posicion;
+    private final Direccion direccion;
 
-    public Emisor(int x, int y, Direccion direccion, int rango) {
-        this.x = x;
-        this.y = y;
+    public Emisor(Posicion posicion, Direccion direccion) {
+        this.posicion = posicion;
         this.direccion = direccion;
-        this.rango = rango;
+    }
+
+    public Laser emitirLaser() {
+        return new Laser(posicion, direccion);
+    }
+
+    public Posicion getPosicion() {
+        return posicion;
     }
 }

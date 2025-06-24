@@ -1,29 +1,22 @@
 package model;
 
-import model.bloques.Bloque;
-import model.bloques.BloqueVacio;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tablero {
-    ArrayList<ArrayList<Bloque>> tablero;
+    private final Map<Posicion, Celda> celdas;
 
-    public Tablero(ArrayList<ArrayList<Bloque>> tablero){
-        this.tablero = tablero;
+    public Tablero(){
+        celdas = new HashMap<>();
     }
 
-    public void setBloque(Bloque bloque, int fila, int columna){
-        tablero.get(fila).set(columna, bloque);
+    public void agregarCelda(Celda celda){
+        Posicion posicion = new Posicion(celda.getX(), celda.getY());
+        celdas.put(posicion, celda);
     }
 
-    public int getFilas(){
-        return tablero.size();
-    }
-
-    public int getColumnas(){
-        return tablero.getFirst().size();
+    public Celda getCelda(Posicion posicion) {
+        return celdas.get(posicion);
     }
 }
 

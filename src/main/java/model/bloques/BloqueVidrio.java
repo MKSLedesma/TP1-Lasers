@@ -3,8 +3,14 @@ package model.bloques;
 import model.Laser;
 
 public class BloqueVidrio extends Bloque{
-    public BloqueVidrio(String tipo) {
-        super("G", true);
+
+    @Override
+    public void interactuarConLaser(Laser laser) {
+
     }
 
+    @Override
+    public boolean esMovible() {
+        return true;
+    }
 }

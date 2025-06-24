@@ -2,7 +2,7 @@ package model.bloques;
 
 import model.Laser;
 
-public class BloqueOpaco extends Bloque{
+public class BloqueOpacoFijo extends Bloque {
 
     @Override
     public void interactuarConLaser(Laser laser) {
@@ -11,6 +11,6 @@ public class BloqueOpaco extends Bloque{
 
     @Override
     public boolean esMovible() {
-        return true;
+        return false;
     }
 }

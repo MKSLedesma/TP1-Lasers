@@ -1,14 +1,28 @@
 package model.bloques;
 
 import model.Laser;
+import model.Posicion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Bloque {
-    private final String tipo;
-    private final boolean esMovible;
+    private List<Posicion> posiciones;
 
-    public Bloque(String tipo, boolean esMovible) {
-        this.tipo = tipo;
-        this.esMovible = esMovible;
+    public Bloque() {
+        this.posiciones = new ArrayList<Posicion>();
     }
+
+    public void setPosiciones(List<Posicion> posiciones) {
+        this.posiciones = posiciones;
+    }
+
+    public List<Posicion> getPosiciones() {
+        return posiciones;
+    }
+
+    public abstract void interactuarConLaser(Laser laser);
+
+    public abstract boolean esMovible();
 }
 
