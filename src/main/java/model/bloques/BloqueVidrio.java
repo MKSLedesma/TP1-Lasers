@@ -4,7 +4,7 @@ import model.Laser;
 
 public class BloqueVidrio extends Bloque{
     public BloqueVidrio(String tipo) {
-        super("G", false);
+        super("G", true);
     }
 
 }

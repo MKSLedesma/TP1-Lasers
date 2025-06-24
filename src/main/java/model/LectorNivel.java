@@ -8,14 +8,13 @@ import java.util.ArrayList;
 public class LectorNivel {
     public static Nivel construirNivel(File dirNivel) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(dirNivel));
-        String linea = "";
-        int auxiliar = 0;
-        ArrayList<ArrayList<Interfaz>> arrayTablero = new ArrayList<>();
+        String linea;
+        ArrayList<ArrayList<Bloque>> arrayTablero = new ArrayList<>();
         ArrayList<Emisor> emisores = new ArrayList<>();
         ArrayList<Objetivo> objetivos = new ArrayList<>();
 
         while (!(linea = br.readLine()).isEmpty()) {
-            ArrayList<Interfaz> fila = new ArrayList<>();
+            ArrayList<Bloque> fila = new ArrayList<>();
             for (char c : linea.toCharArray()) {
                 switch (c) {
                     case ' ':
@@ -26,10 +25,10 @@ public class LectorNivel {
                         fila.add(new BloqueEspejo("R"));
                         break;
                     case 'F':
-                        fila.add(new BloqueOpaco("F"));
+                        fila.add(new BloqueOpaco("F", false));
                         break;
                     case 'B':
-                        fila.add(new BloqueOpacoMovil("B"));
+                        fila.add(new BloqueOpaco("B"));
                         break;
                     case 'G':
                         fila.add(new BloqueVidrio("G"));

@@ -10,8 +10,6 @@ public class Nivel {
     private ArrayList<Emisor> emisores;
     private ArrayList<Objetivo> objetivos;
     private Tablero tablero;
-    private int[] posicionLaser;
-    private int[] posicionObjetivo;
 
     public Nivel(ArrayList<Emisor> emisores, ArrayList<Objetivo> objetivos, Tablero tablero){
         this.emisores = emisores;
