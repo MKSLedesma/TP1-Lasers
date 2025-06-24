@@ -1,9 +1,8 @@
 package model.bloques;
 
 import model.Laser;
-import model.Interfaz;
 
-public abstract class Bloque implements Interfaz {
+public abstract class Bloque {
     private final String tipo;
     private final boolean esMovible;
 
@@ -11,12 +10,5 @@ public abstract class Bloque implements Interfaz {
         this.tipo = tipo;
         this.esMovible = esMovible;
     }
-
-    @Override
-    public String representacion() {
-        return tipo;
-    }
-
-    public abstract void interactuarLaser(Laser laser);
 }
 

@@ -7,9 +7,4 @@ public class BloqueEspejo extends Bloque{
         super("R", false);
     }
 
-    @Override
-    public void interactuarLaser(Laser laser) {
-        System.out.println("El láser es reflejado por el bloque espejo.");
-        laser.reflejar();
-    }
 }

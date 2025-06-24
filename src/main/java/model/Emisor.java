@@ -2,7 +2,7 @@ package model;
 
 import model.Laser;
 
-public class Emisor implements Interfaz {
+public class Emisor {
     private int x;
     private int y;
     private Direccion direccion;
@@ -14,21 +14,4 @@ public class Emisor implements Interfaz {
         this.direccion = direccion;
         this.rango = rango;
     }
-
-    @Override
-    public void interactuarLaser(Laser laser) {
-        for (int i = 0; i < rango; i++) {
-            for (int j = 0; j < rango; j++) {
-                laser.emitirDesde(x + i, y + j);
-            }
-        }
-    }
-
-    @Override
-    public String representacion() {
-        return "E";
-    }
-
-    public int getX() { return x; }
-    public int getY() { return y; }
 }

@@ -1,6 +1,6 @@
 package model;
 
-public class Objetivo implements Interfaz {
+public class Objetivo {
     private int x;
     private int y;
 
@@ -9,14 +9,4 @@ public class Objetivo implements Interfaz {
     this.y = y;
     }
 
-    @Override
-    public void interactuarLaser(Laser laser) {
-        laser.detener(); 
-        System.out.println("¡Llegaste al objetivo!");
-    }
-
-    @Override
-    public String representacion() {
-        return "O"; 
-    }
 }

@@ -18,26 +18,4 @@ public class Nivel {
         this.objetivos = objetivos;
         this.tablero = tablero;
     }
-
-    public void moverLaser() {
-        tablero.moverObjeto(posicionLaser[0], posicionLaser[1], posicionLaser[0] + 1, posicionLaser[1]);
-    }
-
-    public void actualizarEstado() {
-        Laser laser = new Laser(posicionLaser[0], posicionLaser[1], Direccion.SE, tablero);
-        laser.emitir();
-        objetivoAlcanzado = tablero.alcanzoObjetivo(posicionLaser[0], posicionLaser[1]);
-    }
-
-    public boolean objetivoAlcanzado() {
-        return tablero.alcanzoObjetivo(posicionLaser[0], posicionLaser[1]);
-    }
-
-    public boolean juegoTerminado() {
-        return juegoTerminado;
-    }
-
-    public void setJuegoTerminado(boolean terminado) {
-        this.juegoTerminado = terminado;
-    }
 }

@@ -26,7 +26,7 @@ public class LectorNivel {
                         fila.add(new BloqueEspejo("R"));
                         break;
                     case 'F':
-                        fila.add(new BloqueOpacoFijo("F"));
+                        fila.add(new BloqueOpaco("F"));
                         break;
                     case 'B':
                         fila.add(new BloqueOpacoMovil("B"));

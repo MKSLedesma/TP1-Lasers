@@ -7,7 +7,4 @@ public class BloqueVacio extends Bloque {
         super("", false);
     }
 
-    @Override
-    public void interactuarLaser(Laser laser) {
-    }
 }
